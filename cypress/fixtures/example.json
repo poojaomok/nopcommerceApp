@@ -7,7 +7,13 @@
   "address1": "abcstarsse1",
   "postcode": "50996",
   "phone": "015738000000",
-  "shipping_method": "Next Day Air___Shipping.FixedByWeightByTotal"
+  "shipping_method": "Next Day Air___Shipping.FixedByWeightByTotal",
+    "products_purchased":{
+      "shoesname1": "Nike SB Zoom Stefan Janoski \"Medium Mint\"",
+      "shoesqty": 1,
+      "booksname":"Fahrenheit 451 by Ray Bradbury",
+      "booksqty": 1
+    }
 },
 
    "new_user": {
@@ -22,5 +28,6 @@
       "wrong_password_message":"The password and confirmation password do not match.",
       "no_email_message": "Email is required."
     }
+
 }
 

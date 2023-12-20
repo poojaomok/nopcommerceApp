@@ -3,6 +3,8 @@ import {Signup} from "../pageObjects/signup";
 import {Login} from "../pageObjects/login";
 import {Apparel} from "../pageObjects/apparel";
 import {Cart} from "../pageObjects/cart";
+import {Books} from "../pageObjects/books";
+import {Giftcards} from "../pageObjects/giftcards";
 
 describe('User Signup and Checkout', () => {
 
@@ -10,10 +12,14 @@ describe('User Signup and Checkout', () => {
   const signup = new Signup()
   const login = new Login()
   const apparel = new Apparel()
+  const books = new Books()
+  const giftcards = new Giftcards()
   const cart = new Cart()
   let email
   let pass
   let userdata
+  let product
+  let shoesname
 
   before( ()=> {
     cy.fixture("example").then((data) => {
@@ -178,6 +184,39 @@ describe('User Signup and Checkout', () => {
     cart.confirmOrder()
     cy.wait('@ConfirmOrder').its('response.statusCode').should('eq', 200);
     cart.verifySuccessMessage();
+  })
+  it.only('Verify Cart Functionality', () => {
+    login.verifyLoginPage()
+    login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
+    login.verifyLoginSuccess()
+    home.chooseCategoryApparel()
+    //wait for api success - to check page apparel
+    cy.wait('@apparel').its('response.statusCode').should('eq', 200);
+    home.chooseSubCategoryShoes()
+    cy.wait('@shoes').its('response.statusCode').should('eq', 200);
+    shoesname=apparel.getShoesName()
+    cy.log(shoesname)
+    apparel.chooseShoesItem()
+    cy.wait('@addcart').its('response.statusCode').should('eq', 200);
+    home.chooseCategoryBooks()
+    //validate  url -- to check page BOOKS
+    books.verifypagebooks()
+    books.getBooksName()
+    books.addbookstoCart()
+    cy.wait('@addcart').its('response.statusCode').should('eq', 200);
+    home.gotoShoppincart()
+    cart.verifyCartpagetitle()
+    cart.verifycarttableshoes(userdata.valid_user.products_purchased.shoesname1)
+    cart.verifycarttablebooks(userdata.valid_user.products_purchased.booksname)
+    cart.verifycarttableshoesqty(userdata.valid_user.products_purchased.shoesqty)
+    cart.verifycarttablesbooksqty(userdata.valid_user.products_purchased.booksqty)
+    cy.wait(3000)
+    cart.Removeproductfromcart()
+    cy.wait(3000)
+
+
+
+
   })
 
 

@@ -1,4 +1,5 @@
 let userdata
+let product1
 before( ()=>{
     cy.fixture("example").then((data)=>{
         userdata=data;
@@ -94,8 +95,57 @@ export class Cart {
         cy.get(this.checkout_confirm_message).contains('Your order has been successfully processed!')
         cy.get('.ico-logout').click()
     }
+    verifycartitems() {
+        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(3)>a.product-name")
+            .invoke(value)
+            .then((product) => {
+                product1 = product.text()
+                //     expect(x).to.equal('Kabul');
+            })
+    }
+    verifycarttable() {
+        cy.get("table.cart>tbody>tr")
+            .each(($row, index, $rows) => {
+                cy.wrap($row).within(() => {
+                    cy.get("td").each(($col, index, $cols) => {
+                        cy.log($col.text())
+                    })
 
+                })
 
+            })
+    }
 
+    verifycarttableshoes(shoename) {
+        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(3)>a")
+            .then((value) =>{
+                const x=value.text()
+                expect(x).to.equal(shoename);
+            })
+    }
+    verifycarttableshoesqty(qty) {
+        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(5)>input[value="+qty+"]")
+            .should('be.visible');
+
+    }
+    verifycarttablebooks(bookname) {
+        cy.get("table.cart>tbody>tr:nth-child(2)>td:nth-child(3)>a")
+            .then((value) =>{
+                const x=value.text()
+                expect(x).to.equal(bookname);
+            })
+    }
+    verifycarttablesbooksqty(qty) {
+        cy.get("table.cart>tbody>tr:nth-child(2)>td:nth-child(5)>input[value="+qty+"]")
+            .should('be.visible');
+
+    }
+    Removeproductfromcart()
+    {
+        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(7)>button.remove-btn").click({force:true})
+    }
+    verifyCartafterremoval(){
+
+    }
 
 }

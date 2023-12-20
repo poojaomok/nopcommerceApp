@@ -4,51 +4,38 @@ export class Apparel {
 
     apparel_shoesitem='.item-grid>.item-box'
     apparel_shoesaddtocart_button='#add-to-cart-button-26'
-    apparel_shoepicture='.picture-gallery'
-    apparel_cartsucces_notification='.bar-notification success'
+    shoes_item=':nth-child(3) > .product-item > .details > .add-info > .buttons > .product-box-add-to-cart-button'
+    shoes_name=':nth-child(3) > .product-item > .details > .product-title>a'
+    apparel_url='https://demo.nopcommerce.com/apparel'
 
 
+    verifypageapparel()
+    {
 
-    // verifyApparelPage()
-    // {
-    //     cy.url().should('contain','https://demo.nopcommerce.com/apparel')
-    //     cy.get(this.apparel_pagetitle).text().should('have.text','Apparel')
-    // }
+        cy.url().should('contain',this.apparel_url)
+
+    }
     chooseShoesItem()
     {
 
-        cy.get(this.apparel_shoesitem).eq(2).find('.product-box-add-to-cart-button').click()
+        cy.get(this.apparel_shoesitem).eq(2).find('.product-box-add-to-cart-button').click({delay: 1000})
         // cy.get(this.apparel_shoepicture).should('be.visible')
         // cy.url().should('contain', "https://demo.nopcommerce.com/")
     }
-    addShoestoCart()
+
+    getShoesName()
     {
-        // cy.get('.item-grid>.item-box').then(shoeslist =>{
-        //     //cy.log(shoeslist.length)
-        //     const randomlist=Cypress._.random(0,shoeslist.length-1)
-        //     cy.get('.item-grid>.item-box').children().eq(randomlist).click()
+        cy.get(this.shoes_name).then((text1) => {
+            //cy.wrap(text).as('shoesname');
+
+            const shoesname=text1.text()
+            return shoesname
 
 
-        cy.get(this.apparel_shoesaddtocart_button).click({force:true})
-        //cy.pause()
-        // cy.get(this.apparel_cartsucces_notification).should('be.visible')
-        //     .and('contains','The product has been added to your shopping cart ')
 
-        //     })
-        // })
-        //})
+        });
+
     }
-    // chooseshoessize()
-    // {
-    //     // const randomsize=Cypress._.random(0,shoeslist.length-1)
-    //     // cy.get('.item-grid>.item-box').children().eq(randomlist).click()
-    //     cy.get(this.apparel_shoesssize).children().then( sizelist =>{
-    //         const randomsize=Cypress._.random(0,sizelist.length-1)
-    //         cy.log(randomsize.length)
-    //
-    //
-    //     })
-    // }
 
 
 
