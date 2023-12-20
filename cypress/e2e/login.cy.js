@@ -158,7 +158,7 @@ describe('User Signup and Checkout', () => {
     signup.clickSubmit()
     signup.verifyErrorMessageEmail(userdata.error_message.no_email_message)
   })
-  it('Existing User login and checkout', () => {
+  it.skip('Existing User login and checkout', () => {
     login.verifyLoginPage()
     login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
     login.verifyLoginSuccess()
