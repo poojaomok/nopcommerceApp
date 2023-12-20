@@ -1,5 +1,129 @@
-describe('Test', () => {
-  it('Launch', () => {
-    cy.visit('https://demo.nopcommerce.com/')
+import {Home} from "../pageObjects/home";
+import {Signup} from "../pageObjects/signup";
+import {Login} from "../pageObjects/login";
+import {Apparel} from "../pageObjects/apparel";
+import {Cart} from "../pageObjects/cart";
+
+describe('User Signup and Checkout', () => {
+
+  const home = new Home()
+  const signup = new Signup()
+  const login = new Login()
+  const apparel = new Apparel()
+  const cart = new Cart()
+  let email
+  let pass
+  let userdata
+
+  before( ()=> {
+    cy.fixture("example").then((data) => {
+      userdata = data;
+    })
   })
+    beforeEach(()=>{
+
+    cy.visit(Cypress.env('BASE_URL'))
+    cy.intercept({
+      url: 'https://demo.nopcommerce.com/registerresult/1?returnUrl=/',
+      method: 'GET'
+    }).as('register');
+    cy.intercept({
+      url: 'https://demo.nopcommerce.com',
+      method: 'GET'
+    }).as('home');
+    cy.intercept({
+      url: 'https://demo.nopcommerce.com/apparel',
+      method: 'GET'
+    }).as('apparel');
+    cy.intercept({
+      url: 'https://demo.nopcommerce.com/shoes',
+      method: 'GET'
+    }).as('shoes')
+    cy.intercept({
+      url: /addproducttocart\/catalog\/\d+/,
+      method: 'POST'
+    }).as('addcart')
+    cy.intercept({
+      url: /demo.nopcommerce.com\/\d+/,
+      method: 'GET'
+    }).as('item')
+    cy.intercept({
+      url:'/checkout/OpcSaveBilling/',
+      //checkout/OpcSaveShippingMethod/
+      method: 'POST'
+    }).as('SaveBillingAdd')
+    cy.intercept({
+      url:'/checkout/OpcSaveShippingMethod/',
+      //checkout/OpcSavePaymentMethod/
+      method: 'POST'
+    }).as('SaveShippingMethod')
+    cy.intercept({
+      url:'/checkout/OpcSavePaymentMethod/',
+      //checkout/OpcSavePaymentInfo/
+      method: 'POST'
+    }).as('SavePaymentMethod')
+    cy.intercept({
+      url:'/checkout/OpcSavePaymentInfo/',
+      //checkout/OpcConfirmOrder/
+      method: 'POST'
+    }).as('SavePaymentInfo')
+    cy.intercept({
+      url:'/checkout/OpcConfirmOrder/',
+      //checkout/OpcConfirmOrder/
+      method: 'POST'
+    }).as('ConfirmOrder')
+  })
+
+  it('User signup and checkout', () => {
+    home.verifyAppLogo()
+    home.clickRegisterLink()
+    signup.verifyRegisterheading()
+    signup.enterGenderFemale()
+    signup.enterFirstName()
+    signup.enterLastName()
+    signup.enterDOB_Day()
+    signup.enterDOB_Month()
+    signup.enterDOB_Year()
+    email=signup.enterEmail()
+    signup.enterCompanyName()
+    signup.checkNewsletter()
+    pass=signup.enterPassword()
+    signup.clickSubmit()
+    cy.wait('@register').its('response.statusCode').should('eq', 200);
+    signup.verifyRegisterResult()
+    signup.clickContinue()
+    cy.wait('@home').its('response.statusCode').should('eq', 200);
+    login.verifyLoginPage()
+    login.verifyLoginNewUser(email,pass)
+    login.verifyLoginSuccess()
+    home.chooseCategoryApparel()
+    cy.wait('@apparel').its('response.statusCode').should('eq', 200);
+    home.chooseSubCategoryShoes()
+    cy.wait('@shoes').its('response.statusCode').should('eq', 200);
+    apparel.chooseShoesItem()
+    cy.wait('@addcart').its('response.statusCode').should('eq', 200);
+    home.gotoShoppincart()
+    cart.verifyCartpagetitle()
+    cart.verifycheckout()
+    cart.AddCountry(userdata.new_user.country_value)
+     cart.AddBillingAddress(userdata.new_user.city,userdata.new_user.address1,userdata.new_user.postcode,userdata.new_user.phone)
+     cy.wait('@SaveBillingAdd').its('response.statusCode').should('eq', 200);
+    cart.chooseBillingMethod((userdata.new_user.shipping_method))
+    cy.wait('@SaveShippingMethod').its('response.statusCode').should('eq', 200);
+    cart.AddPaymentMethod()
+    cy.wait('@SavePaymentMethod').its('response.statusCode').should('eq', 200);
+    cart.verifyPaymentInfo()
+    cy.wait('@SavePaymentInfo').its('response.statusCode').should('eq', 200);
+    cart.confirmOrder()
+    cy.wait('@ConfirmOrder').its('response.statusCode').should('eq', 200);
+    cart.verifySuccessMessage();
+  });
+
+  it.skip('New User Login ', () => {
+
+  });
+
+
+
+
 })

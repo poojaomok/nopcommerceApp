@@ -1,5 +1,22 @@
 {
-  "name": "Using fixtures to represent data",
-  "email": "hello@cypress.io",
-  "body": "Fixtures are a great way to mock data for responses to routes"
+  "valid_user": {
+  "user_email": "pj@test.com",
+  "password": "pjok123",
+  "country_value": "127",
+  "city": "Cologne",
+  "address1": "abcstarsse1",
+  "postcode": "50996",
+  "phone": "015738000000",
+  "shipping_method": "Next Day Air___Shipping.FixedByWeightByTotal"
+},
+
+   "new_user": {
+     "country_value": "133",
+     "city": "Delhi",
+     "address1": "xyzstarsse1",
+     "postcode": "50995",
+     "phone": "015738000001",
+     "shipping_method": "Ground___Shipping.FixedByWeightByTotal"
+  }
 }
+
