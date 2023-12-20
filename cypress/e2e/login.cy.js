@@ -119,10 +119,39 @@ describe('User Signup and Checkout', () => {
     cart.verifySuccessMessage();
   });
 
-  it.skip('New User Login ', () => {
-
+  it('Invalid SignupAttempt1', () => {
+    //unmatched password
+    home.verifyAppLogo()
+    home.clickRegisterLink()
+    signup.verifyRegisterheading()
+    signup.enterGenderFemale()
+    signup.enterFirstName()
+    signup.enterLastName()
+    signup.enterDOB_Day()
+    signup.enterDOB_Month()
+    signup.enterDOB_Year()
+    signup.enterCompanyName()
+    signup.checkNewsletter()
+    signup.enterUnmatchedPassword()
+    signup.clickSubmit()
+    signup.verifyErrorMessagePassword(userdata.error_message.wrong_password_message)
   });
-
+  it('Invalid Singnup Attempt2', () => {
+    //empty a mandatory field
+    home.verifyAppLogo()
+    home.clickRegisterLink()
+    signup.enterGenderMale()
+    signup.enterFirstName()
+    signup.enterLastName()
+    signup.enterDOB_Day()
+    signup.enterDOB_Month()
+    signup.enterDOB_Year()
+    signup.enterCompanyName()
+    signup.checkNewsletter()
+    signup.enterPassword()
+    signup.clickSubmit()
+    signup.verifyErrorMessageEmail(userdata.error_message.no_email_message)
+  })
 
 
 

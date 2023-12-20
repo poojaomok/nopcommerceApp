@@ -17,6 +17,10 @@
      "postcode": "50995",
      "phone": "015738000001",
      "shipping_method": "Ground___Shipping.FixedByWeightByTotal"
-  }
+  },
+    "error_message": {
+      "wrong_password_message":"The password and confirmation password do not match.",
+      "no_email_message": "Email is required."
+    }
 }
 

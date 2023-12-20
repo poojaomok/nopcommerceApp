@@ -109,9 +109,9 @@ export class Signup {
     {
         cy.get(this.RegisterContinue).should("have.text", 'Continue').click()
     }
-    verifyErrorMessageEmail()
+    verifyErrorMessageEmail(addemailmessage)
     {
-        cy.get(this.RegisterEmailError).should('be.visible').and('have.text',"Email is required.")
+        cy.get(this.RegisterEmailError).should('be.visible').and('have.text',`${addemailmessage}`)
 
     }
     enterUnmatchedPassword()
@@ -121,10 +121,9 @@ export class Signup {
         cy.get(this.RegisterConfirmPassword).type(randomPassword+"abc")
 
     }
-    verifyErrorMessagePassword()
+    verifyErrorMessagePassword(wrongpassword)
     {
-
-        cy.get(this.RegisterConfirmpasswordError).should('be.visible').and('have.text',"The password and confirmation password do not match.")
+        cy.get(this.RegisterConfirmpasswordError).should('be.visible').and('have.text',`${wrongpassword}`)
     }
 
 
