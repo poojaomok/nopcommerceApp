@@ -18,6 +18,8 @@ export class Cart {
     checkout_phoneno='#BillingNewAddress_PhoneNumber'
     checkout_billingadd_continue_button='#billing-buttons-container > .new-address-next-step-button'
     checkout_billing_method='#shippingoption_1'
+    checkout_billingaddress='#opc-billing'
+    checkout_billingaddress_editbutton='button[id="edit-billing-address-button"]'
     checkout_shippingmethod_continue_button='#shipping-method-buttons-container > .shipping-method-next-step-button'
     checkout_payment_method='#paymentmethod_0'
     //checkout_payment_method_type=`.method-name>input[value=="${shippingmethod}"]`
@@ -43,14 +45,23 @@ export class Cart {
 
     }
     AddBillingAddress(city,address1,postalcode,phone) {
-        cy.get(this.checkout_city).type(city)
-        cy.get(this.checkout_address1).type(address1)
-        cy.get(this.checkout_postcode).type(postalcode)
-        cy.get(this.checkout_phoneno).type(phone)
+        cy.get(this.checkout_city).clear().type(city)
+        cy.get(this.checkout_address1).clear().type(address1)
+        cy.get(this.checkout_postcode).clear().type(postalcode)
+        cy.get(this.checkout_phoneno).clear().type(phone)
         cy.get(this.checkout_billingadd_continue_button).click()
 
-
-
+    }
+    VerifyShippingsameaddrress()
+    {
+        cy.wait(1000)
+        cy.get(this.checkout_billingaddress).then($sameaddress => {
+            if ($sameaddress.find(this.checkout_billingaddress_editbutton).length > 0) {
+                cy.get(this.checkout_billingaddress_editbutton).click({force: true});
+            } else {
+                return
+            }
+        })
     }
     AddBillingMethod()
     {

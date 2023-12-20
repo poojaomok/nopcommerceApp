@@ -152,6 +152,33 @@ describe('User Signup and Checkout', () => {
     signup.clickSubmit()
     signup.verifyErrorMessageEmail(userdata.error_message.no_email_message)
   })
+  it('Existing User login and checkout', () => {
+    login.verifyLoginPage()
+    login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
+    login.verifyLoginSuccess()
+    home.chooseCategoryApparel()
+    cy.wait('@apparel').its('response.statusCode').should('eq', 200);
+    home.chooseSubCategoryShoes()
+    cy.wait('@shoes').its('response.statusCode').should('eq', 200);
+    apparel.chooseShoesItem()
+    cy.wait('@addcart').its('response.statusCode').should('eq', 200);
+    home.gotoShoppincart()
+    cart.verifyCartpagetitle()
+    cart.verifycheckout()
+    cart.VerifyShippingsameaddrress()
+    cart.AddCountry(userdata.valid_user.country_value)
+    cart.AddBillingAddress(userdata.valid_user.city,userdata.new_user.address1,userdata.new_user.postcode,userdata.new_user.phone)
+    cy.wait('@SaveBillingAdd').its('response.statusCode').should('eq', 200);
+    cart.chooseBillingMethod((userdata.valid_user.shipping_method))
+    cy.wait('@SaveShippingMethod').its('response.statusCode').should('eq', 200);
+    cart.AddPaymentMethod()
+    cy.wait('@SavePaymentMethod').its('response.statusCode').should('eq', 200);
+    cart.verifyPaymentInfo()
+    cy.wait('@SavePaymentInfo').its('response.statusCode').should('eq', 200);
+    cart.confirmOrder()
+    cy.wait('@ConfirmOrder').its('response.statusCode').should('eq', 200);
+    cart.verifySuccessMessage();
+  })
 
 
 
