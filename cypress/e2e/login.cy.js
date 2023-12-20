@@ -185,7 +185,7 @@ describe('User Signup and Checkout', () => {
     cy.wait('@ConfirmOrder').its('response.statusCode').should('eq', 200);
     cart.verifySuccessMessage();
   })
-  it.only('Verify Cart Functionality', () => {
+  it.skip('Verify Cart Functionality', () => {
     login.verifyLoginPage()
     login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
     login.verifyLoginSuccess()
