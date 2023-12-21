@@ -8,12 +8,6 @@
   "postcode": "50996",
   "phone": "015738000000",
   "shipping_method": "Next Day Air___Shipping.FixedByWeightByTotal",
-    "products_purchased":{
-      "shoesname1": "Nike SB Zoom Stefan Janoski \"Medium Mint\"",
-      "shoesqty": 1,
-      "booksname":"Fahrenheit 451 by Ray Bradbury",
-      "booksqty": 1
-    },
     "items_purchased":[
       {
         "code": "SKU: NK_ZSJ_MM",
@@ -25,8 +19,7 @@
       }
     ]
 },
-
-   "new_user": {
+  "new_user": {
      "country_value": "133",
      "city": "Delhi",
      "address1": "xyzstarsse1",
@@ -34,7 +27,7 @@
      "phone": "015738000001",
      "shipping_method": "Ground___Shipping.FixedByWeightByTotal"
   },
-    "error_message": {
+  "error_message": {
       "wrong_password_message":"The password and confirmation password do not match.",
       "no_email_message": "Email is required."
     }

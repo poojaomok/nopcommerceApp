@@ -24,14 +24,11 @@ export class Login {
     verifyLoginPage()
     {
         cy.get(this.login_link).click();
-        cy.url().should('contain',"https://demo.nopcommerce.com/login")
-        // cy.title().should('have.text',"Welcome, Please Sign In!")
+        cy.url().should('contain',Cypress.env('BASE_URL')+'login')
+
     }
-    verifyLogin()
-    {
-        cy.loginAsValidExsitingUser(userdata.useremail,userdata.password)
-    }
-    verifyLoginNewUser(username,password)
+
+    verifyLoginUser(username,password)
     {
         cy.loginAsValidUser(username,password)
     }

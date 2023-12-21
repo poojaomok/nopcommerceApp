@@ -1,6 +1,6 @@
 export class Home {
-    RegisterLink = '.ico-register' //move  to another po
-    Applogo = '.header-logo'// move to another po
+    RegisterLink = '.ico-register'
+    Applogo = '.header-logo'
     Home_apparellink='.notmobile > :nth-child(3) > [href="/apparel"]'
     Home_bookslink='.notmobile > :nth-child(5) > [href="/books"]'
     Home_giftcardlink='.notmobile > :nth-child(7) > [href="/gift-cards"]'
@@ -15,7 +15,7 @@ export class Home {
     clickRegisterLink()
     {
         cy.get(this.RegisterLink).contains("Register").click()
-        cy.url().should('contain',"https://demo.nopcommerce.com/register")
+        cy.url().should('contain',Cypress.env('BASE_URL')+'register')
 
     }
     chooseCategoryApparel()

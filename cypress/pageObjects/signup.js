@@ -46,7 +46,6 @@ export class Signup {
     enterDOB_Day() {
 
         cy.get('[name="DateOfBirthDay"]>option').then($datelist =>{
-            //Math.floor(Math.random() * datelist.length)
             const rdate=Cypress._.random(0,$datelist.length-1)
             cy.get('[name="DateOfBirthDay"]>option').eq(rdate).then(($select)=>{
                 const datetext=$select.text()
@@ -57,7 +56,6 @@ export class Signup {
     enterDOB_Month() {
 
         cy.get('[name="DateOfBirthMonth"]>option').then($datelist =>{
-            //Math.floor(Math.random() * datelist.length)
             const rmonth=Cypress._.random(0,$datelist.length-1)
             cy.get('[name="DateOfBirthMonth"]>option').eq(rmonth).then(($select)=>{
                 const monthtext=$select.text()
@@ -68,7 +66,6 @@ export class Signup {
     enterDOB_Year() {
 
         cy.get('[name="DateOfBirthYear"]>option').then($datelist =>{
-            //Math.floor(Math.random() * datelist.length)
             const ryear=Cypress._.random(0,$datelist.length-1)
             cy.get('[name="DateOfBirthYear"]>option').eq(ryear).then(($select)=>{
                 const monthyear=$select.text()
@@ -125,6 +122,17 @@ export class Signup {
     {
         cy.get(this.RegisterConfirmpasswordError).should('be.visible').and('have.text',`${wrongpassword}`)
     }
+
+    enterTestEmail(testmail)
+    {
+        cy.get(this.RegisterEmail).type(testmail)
+    }
+    enterTestPassword(testPassword)
+    {
+        cy.get(this.RegisterPassword).type(testPassword)
+        cy.get(this.RegisterConfirmPassword).type(testPassword)
+    }
+
 
 
 

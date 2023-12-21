@@ -2,12 +2,9 @@
 let bookname1
 export class Books {
 
-
-    books_url='https://demo.nopcommerce.com/books'
+    books_url=Cypress.env('BASE_URL')+'books'
     books_item1=':nth-child(1) > .product-item > .details > .add-info > .buttons > .product-box-add-to-cart-button'
-    books_item2=':nth-child(2) > .product-item > .details > .add-info > .buttons > .product-box-add-to-cart-button'
-    books_name1=':nth-child(1) > .product-item > .details > .product-title>a'
-    books_name2=':nth-child(2) > .product-item > .details > .product-title>a'
+
 
     verifypagebooks()
     {
@@ -17,16 +14,8 @@ export class Books {
     }
     addbookstoCart()
     {
-        cy.get(this.books_item1).scrollIntoView().click({force:true},{delay: 1000})
+        cy.get(this.books_item1).scrollIntoView().click({force:true},{timeout: 2000})
 
-
-    }
-    getBooksName()
-    {
-        cy.get(this.books_name1).invoke('text').then((text1) => {
-            cy.wrap(text1).as('bookname1');
-            cy.wait(1000)
-        });
 
     }
 

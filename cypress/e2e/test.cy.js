@@ -4,7 +4,7 @@ import {Login} from "../pageObjects/login";
 import {Apparel} from "../pageObjects/apparel";
 import {Cart} from "../pageObjects/cart";
 import {Books} from "../pageObjects/books";
-import {Giftcards} from "../pageObjects/giftcards";
+
 
 describe('User Signup and Checkout', () => {
 
@@ -13,13 +13,11 @@ describe('User Signup and Checkout', () => {
   const login = new Login()
   const apparel = new Apparel()
   const books = new Books()
-  const giftcards = new Giftcards()
   const cart = new Cart()
   let email
   let pass
   let userdata
-  let product
-  let shoesname
+
 
   before( ()=> {
     cy.fixture("example").then((data) => {
@@ -55,27 +53,22 @@ describe('User Signup and Checkout', () => {
     }).as('item')
     cy.intercept({
       url:'/checkout/OpcSaveBilling/',
-      //checkout/OpcSaveShippingMethod/
       method: 'POST'
     }).as('SaveBillingAdd')
     cy.intercept({
       url:'/checkout/OpcSaveShippingMethod/',
-      //checkout/OpcSavePaymentMethod/
       method: 'POST'
     }).as('SaveShippingMethod')
     cy.intercept({
       url:'/checkout/OpcSavePaymentMethod/',
-      //checkout/OpcSavePaymentInfo/
       method: 'POST'
     }).as('SavePaymentMethod')
     cy.intercept({
       url:'/checkout/OpcSavePaymentInfo/',
-      //checkout/OpcConfirmOrder/
       method: 'POST'
     }).as('SavePaymentInfo')
     cy.intercept({
       url:'/checkout/OpcConfirmOrder/',
-      //checkout/OpcConfirmOrder/
       method: 'POST'
     }).as('ConfirmOrder')
   })
@@ -100,7 +93,7 @@ describe('User Signup and Checkout', () => {
     signup.clickContinue()
     cy.wait('@home').its('response.statusCode').should('eq', 200);
     login.verifyLoginPage()
-    login.verifyLoginNewUser(email,pass)
+    login.verifyLoginUser(email,pass)
     login.verifyLoginSuccess()
     home.chooseCategoryApparel()
     cy.wait('@apparel').its('response.statusCode').should('eq', 200);
@@ -112,7 +105,7 @@ describe('User Signup and Checkout', () => {
     cart.verifyCartpagetitle()
     cart.verifycheckout()
     cart.AddCountry(userdata.new_user.country_value)
-     cart.AddBillingAddress(userdata.new_user.city,userdata.new_user.address1,userdata.new_user.postcode,userdata.new_user.phone)
+    cart.AddBillingAddress(userdata.new_user.city,userdata.new_user.address1,userdata.new_user.postcode,userdata.new_user.phone)
      cy.wait('@SaveBillingAdd').its('response.statusCode').should('eq', 200);
     cart.chooseBillingMethod((userdata.new_user.shipping_method))
     cy.wait('@SaveShippingMethod').its('response.statusCode').should('eq', 200);
@@ -158,9 +151,9 @@ describe('User Signup and Checkout', () => {
     signup.clickSubmit()
     signup.verifyErrorMessageEmail(userdata.error_message.no_email_message)
   })
-  it.skip('Existing User login and checkout', () => {
+  it('Existing User login and checkout', () => {
     login.verifyLoginPage()
-    login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
+    login.verifyLoginUser(userdata.valid_user.user_email,userdata.valid_user.password)
     login.verifyLoginSuccess()
     home.chooseCategoryApparel()
     cy.wait('@apparel').its('response.statusCode').should('eq', 200);
@@ -186,43 +179,31 @@ describe('User Signup and Checkout', () => {
     cart.verifySuccessMessage();
   })
 
-  it.only('Verify Cart Functionality', () => {
+  it('Verify Cart Functionality', () => {
     login.verifyLoginPage()
-    login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
-
+    login.verifyLoginUser(userdata.valid_user.user_email,userdata.valid_user.password)
     login.verifyLoginSuccess()
     home.chooseCategoryApparel()
     //wait for api success - to check page apparel
     cy.wait('@apparel').its('response.statusCode').should('eq', 200);
     home.chooseSubCategoryShoes()
     cy.wait('@shoes').its('response.statusCode').should('eq', 200);
-    shoesname=apparel.getShoesName()
-    cy.log(shoesname)
     apparel.chooseShoesItem()
     cy.wait('@addcart').its('response.statusCode').should('eq', 200);
     home.chooseCategoryBooks()
     //validate  url -- to check page BOOKS
     books.verifypagebooks()
-    books.getBooksName()
     books.addbookstoCart()
     cy.wait('@addcart').its('response.statusCode').should('eq', 200);
     home.gotoShoppincart()
     cart.verifyCartpagetitle()
     cart.verifycarttableitem()
-    //cart.verifycarttableqty()
-    cy.wait(1000)
     cart.removeProductfromCart1()
     cart.verifyRemovedIteminCart()
     cart.updateQtyinCart()
     cart.verifyUpdatedQtyinCart()
     cart.removeAllitemsfromCart()
 
-
-
-
-
   })
-
-
 
 })

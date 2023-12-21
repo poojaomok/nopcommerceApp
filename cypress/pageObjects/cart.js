@@ -43,11 +43,12 @@ export class Cart {
     //checkout methods
     AddCountry(countryvalue) {
         cy.get(this.checkout_country).select(countryvalue)
-        //cy.get(this.checkout_country).should('have.text',"Germany")
 
     }
     AddBillingAddress(city,address1,postalcode,phone) {
-        cy.get(this.checkout_city).clear().type(city)
+        //cy.get(this.checkout_city).should('be.visible')
+        cy.get(this.checkout_city).as('btn')
+            cy.get('@btn').clear().type(city)
         cy.get(this.checkout_address1).clear().type(address1)
         cy.get(this.checkout_postcode).clear().type(postalcode)
         cy.get(this.checkout_phoneno).clear().type(phone)
@@ -56,10 +57,10 @@ export class Cart {
     }
     VerifyShippingsameaddrress()
     {
-        cy.wait(1000)
         cy.get(this.checkout_billingaddress).then($sameaddress => {
             if ($sameaddress.find(this.checkout_billingaddress_editbutton).length > 0) {
                 cy.get(this.checkout_billingaddress_editbutton).click({force: true});
+
             } else {
                 return
             }
@@ -92,66 +93,41 @@ export class Cart {
     }
     verifySuccessMessage()
     {
-        cy.get(this.cart_pagetitle).contains('Thank you')
+        cy.get(this.cart_pagetitle).contains('Thank you',{timeout: 2000})
         cy.get(this.checkout_confirm_message).contains('Your order has been successfully processed!')
         cy.get('.ico-logout').click()
     }
-    verifycartitems() {
-        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(3)>a.product-name")
-            .invoke(value)
-            .then((product) => {
-                product1 = product.text()
-                //     expect(x).to.equal('Kabul');
-            })
-    }
+
+    // verifycarttableitem() {
+    //     const itemsMap = new Map();
+    //     for(let i = 0; i < userdata.valid_user.items_purchased.length; i++) {
+    //         itemsMap.set(userdata.valid_user.items_purchased[i].code, userdata.valid_user.items_purchased[i].qty);
+    //     }
+    //     cy.get("table.cart>tbody>tr")
+    //         // check for multiple row@@@
+    //         .each(($row, index, $rows) => {
+    //             cy.wrap($row).within(() => {
+    //                 const prodCode = cy.get("td:nth-child(1)").get(0).text();
+    //                 const prodQty = cy.get("td:nth-child(5)").get(0).text();
+    //                 cy.log(prodCode)
+    //                 cy.log(prodQty)
+    //                 cy.get("td:nth-child(1)").each(($col, index, $cols) => {
+    //                     cy.log($col.text())
+    //                     expect($col.text()).to.be.oneOf([userdata.valid_user.items_purchased[0].code,userdata.valid_user.items_purchased[1].code])
+    //                 })
+    //
+    //             })
+    //
+    //         })
+    // }
     verifycarttableitem() {
-        cy.get("table.cart>tbody>tr")
-            .each(($row, index, $rows) => {
-                cy.wrap($row).within(() => {
-                    cy.get("td:nth-child(1)").each(($col, index, $cols) => {
-                        cy.log($col.text())
-                        expect($col.text()).to.be.oneOf([userdata.valid_user.items_purchased[0].code,userdata.valid_user.items_purchased[1].code])
-                    })
-
+        for(let i = 0; i < userdata.valid_user.items_purchased.length; i++) {
+            cy.contains('td', userdata.valid_user.items_purchased[i].code)
+                .get('td.quantity>input').invoke('val').then((val)=> {
+                expect(Number(val)).to.equal(userdata.valid_user.items_purchased[i].qty);
                 })
-
-            })
+        }
     }
-    verifycarttableqty() {
-        cy.get("table.cart>tbody>tr")
-            .each(($row, index, $rows) => {
-                cy.wrap($row).within(() => {
-                    cy.get("td:nth-child(5)>input").
-                    each(($col, index, $cols) => {
-
-                        cy.log($col)
-                        cy.get($col).invoke('val').then((val)=> {
-                            expect(val).to.be.oneOf([userdata.valid_user.items_purchased[0].qty,userdata.valid_user.items_purchased[1].qty]);
-                       // expect($col).to.be.oneOf([userdata.valid_user.items_purchased[0].qty,userdata.valid_user.items_purchased[1].qty])
-                    })
-                    })
-
-                })
-            })
-
-            }
-
-    verifyQtyinCart()
-    {
-        cy.contains('tr', 'td.quantity>input').invoke('val').then((val)=> {
-            expect(val).to.be.oneOf([userdata.valid_user.items_purchased[0].qty,userdata.valid_user.items_purchased[1].qty]);
-        })
-    }
-
-
-    verifycarttableshoes(shoename) {
-        cy.get("table.cart>tbody>tr:nth-child(1)>td:nth-child(3)>a")
-            .then((value) =>{
-                const x=value.text()
-                expect(x).to.equal(shoename);
-            })
-    }
-
 
 
 
@@ -186,8 +162,5 @@ export class Cart {
             .click({multiple:true})
 
     }
-
-
-
 
 }
