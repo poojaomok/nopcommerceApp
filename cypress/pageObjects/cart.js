@@ -133,9 +133,11 @@ export class Cart {
 
     removeProductfromCart1()
     {
-        cy.contains('td', userdata.valid_user.items_purchased[0].code)  // gives you the cell
+        cy.contains('td', userdata.valid_user.items_purchased[0].code)
             .siblings()
-            .get('td.remove-from-cart>button.remove-btn').eq(0).should('be.visible').click({delay:2000})                         // finds the buttons cell of that row.click()
+            .get('td.remove-from-cart>button.remove-btn').as('btn')
+            cy.get('@btn').should('be.visible')
+            cy.get('@btn').eq(0).should('be.visible').click({delay:2000})
 
     }
     verifyRemovedIteminCart()
