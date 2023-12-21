@@ -98,7 +98,7 @@ export class Cart {
         cy.get('.ico-logout').click()
     }
 
-    /// verifycarttableitem() {
+    //verifycarttableitem() {
     //     const itemsMap = new Map();
     //     for(let i = 0; i < userdata.valid_user.items_purchased.length; i++) {
     //         itemsMap.set(userdata.valid_user.items_purchased[i].code, userdata.valid_user.items_purchased[i].qty);
