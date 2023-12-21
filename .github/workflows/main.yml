@@ -3,14 +3,9 @@ name: Cypress Test
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        containers: [1,2]
     steps:
       - name: Checkout
         uses: actions/checkout@v4.1.1
       - name: Cypress
         uses: cypress-io/github-action@v3
-        with:
-          parallel: true
+      
