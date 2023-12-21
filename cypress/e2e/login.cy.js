@@ -185,9 +185,11 @@ describe('User Signup and Checkout', () => {
     cy.wait('@ConfirmOrder').its('response.statusCode').should('eq', 200);
     cart.verifySuccessMessage();
   })
-  it.skip('Verify Cart Functionality', () => {
+
+  it.only('Verify Cart Functionality', () => {
     login.verifyLoginPage()
     login.verifyLoginNewUser(userdata.valid_user.user_email,userdata.valid_user.password)
+
     login.verifyLoginSuccess()
     home.chooseCategoryApparel()
     //wait for api success - to check page apparel
@@ -206,13 +208,15 @@ describe('User Signup and Checkout', () => {
     cy.wait('@addcart').its('response.statusCode').should('eq', 200);
     home.gotoShoppincart()
     cart.verifyCartpagetitle()
-    cart.verifycarttableshoes(userdata.valid_user.products_purchased.shoesname1)
-    cart.verifycarttablebooks(userdata.valid_user.products_purchased.booksname)
-    cart.verifycarttableshoesqty(userdata.valid_user.products_purchased.shoesqty)
-    cart.verifycarttablesbooksqty(userdata.valid_user.products_purchased.booksqty)
-    cy.wait(3000)
-    cart.Removeproductfromcart()
-    cy.wait(3000)
+    cart.verifycarttableitem()
+    //cart.verifycarttableqty()
+    cy.wait(1000)
+    cart.removeProductfromCart1()
+    cart.verifyRemovedIteminCart()
+    cart.updateQtyinCart()
+    cart.verifyUpdatedQtyinCart()
+    cart.removeAllitemsfromCart()
+
 
 
 

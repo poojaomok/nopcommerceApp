@@ -17,7 +17,7 @@ export class Books {
     }
     addbookstoCart()
     {
-        cy.get(this.books_item1).click({force:true},{delay: 1000})
+        cy.get(this.books_item1).scrollIntoView().click({force:true},{delay: 1000})
 
 
     }
@@ -25,6 +25,7 @@ export class Books {
     {
         cy.get(this.books_name1).invoke('text').then((text1) => {
             cy.wrap(text1).as('bookname1');
+            cy.wait(1000)
         });
 
     }

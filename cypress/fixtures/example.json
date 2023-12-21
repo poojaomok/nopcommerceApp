@@ -13,7 +13,17 @@
       "shoesqty": 1,
       "booksname":"Fahrenheit 451 by Ray Bradbury",
       "booksqty": 1
-    }
+    },
+    "items_purchased":[
+      {
+        "code": "SKU: NK_ZSJ_MM",
+        "qty": 1
+      },
+      {
+        "code": "SKU: FR_451_RB",
+        "qty": 1
+      }
+    ]
 },
 
    "new_user": {

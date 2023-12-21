@@ -18,7 +18,7 @@ export class Apparel {
     chooseShoesItem()
     {
 
-        cy.get(this.apparel_shoesitem).eq(2).find('.product-box-add-to-cart-button').click({delay: 1000})
+        cy.get(this.apparel_shoesitem).eq(2).find('.product-box-add-to-cart-button').scrollIntoView().click({delay: 1000})
         // cy.get(this.apparel_shoepicture).should('be.visible')
         // cy.url().should('contain', "https://demo.nopcommerce.com/")
     }
@@ -30,6 +30,7 @@ export class Apparel {
 
             const shoesname=text1.text()
             return shoesname
+            cy.wait(2000)
 
 
 
