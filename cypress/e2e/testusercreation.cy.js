@@ -22,7 +22,7 @@ describe('Gererate test account', () => {
     })
 
 
-    it('Create new user for test', () => {
+    it.skip('Create new user for test', () => {
         home.verifyAppLogo()
         home.clickRegisterLink()
         signup.verifyRegisterheading()

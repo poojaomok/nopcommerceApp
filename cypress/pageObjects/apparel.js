@@ -14,7 +14,7 @@ export class Apparel {
     }
     chooseShoesItem()
     {
-
+        cy.get(this.apparel_shoesitem).should('be.visible')
         cy.get(this.apparel_shoesitem).eq(2).find('.product-box-add-to-cart-button').scrollIntoView().click({delay: 1000})
 
     }
